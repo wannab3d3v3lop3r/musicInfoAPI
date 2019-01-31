@@ -2,10 +2,13 @@
 
 const EDM_ENDPOINT_LOCATION = 'https://edmtrain.com/api/locations?';
 const EDM_ENDPOINT_EVENTS = 'https://edmtrain.com/api/events?'
-const SPOTIFY_ENDPOINT = '';
+const SPOTIFY_ENDPOINT = 'https://api.spotify.com/v1/';
 const CLIENT_ID = '82abf1d0-fa21-4a55-b904-64476c4a85d0';
 let locationId = [];
 
+/*                EDM TRAIN               */
+
+//When user inputs a state and city, returns a JSON, goal is to grab the location ID
 function getLocationFromUser(city, state, callback){
     const settings = {
         url: EDM_ENDPOINT_LOCATION,
@@ -22,6 +25,14 @@ function getLocationFromUser(city, state, callback){
     $.ajax(settings);
 };
 
+//callback Function for getLocationFromUser function
+function getLocationId(data){
+    console.log(data);
+    console.log(data.data[0].id)
+    locationId = data.data[0].id;
+};
+
+//Uses the location ID to filter the JSON of a specific location
 function getDataFromLocation(locationId, callback){
     console.log(locationId);
     const settings = {
@@ -38,40 +49,52 @@ function getDataFromLocation(locationId, callback){
     $.ajax(settings);
 }
 
-//make sure user inputs the city and state correctly
-// function checkString(string){
+//callback function for getDataFromLocation. Filters and returns an array of the JSON into html
+function displayEdmSearchData(arrayData){
+    console.log(arrayData);
+    console.log(arrayData.data);
+    const results = arrayData.data
+        .filter((item) => item.artistList.length > 0)
+        .map((item, index) => renderEdmResult(item));
+    $('.js-search-results').html(results.join(''));
+};
 
-// }
+//Appends the artists name and date
+function renderEdmResult(data){
 
-function grabWords(string){
-    let stringArray = string.split(" ");
-    return stringArray;
+    const artistName = data.artistList[0].name;
+
+    return `
+    <div class="col-3"><button class="clickMe">${artistName}</button>
+            <div>${data.date}</div><div>`;
 }
 
-function getCity(wordsArr){
+/*                      SPOTIFY                        */
 
-    return wordsArr.slice(0, wordsArr.length-1).join(" ");
-
-}
-
-// function collectId(){}
-
-// function getDataFromSpotifyApi(searchTerm, callback){
-//     const settings = {
-//         url: SPOTIFY_ENDPOINT,
-//         data: {
-//             q: `${searchTerm}`,
-//             Authorization: "Bearer BQAvw7SOZj8xDaR03KAIW1tyN2rUAUlPfkpvstDWYdKaeTngLEAH3u4de861gT_yqVzMl2KowmdBxjmZDlrYydbwZoYydeihTaAPtcknTim1Su3-C5Tt6WWz02Q4_QO9zSlQQLGGh7ydSw",
-//             limit: 10
-//         },
-//         ContentType:'application/javascript',
-//         dataType: "json",
-//         type: "GET",
-//         success: callback
-//         };
+function getDataFromSpotifyApi(searchTerm, callback){
+    const settings = {
+        url: SPOTIFY_ENDPOINT,
+        data: {
+            q: `${searchTerm}`,
+            ids: '2CIMQHirSU0MQqyYHq0eOx%2C57dN52uHvrHOxijzpIgu3E%2C1vCWHaC5f2uS3yhpwWbIA6',
+            limit: 10
+        },
+        headers:{
+            Authorization: "Bearer BQAvw7SOZj8xDaR03KAIW1tyN2rUAUlPfkpvstDWYdKaeTngLEAH3u4de861gT_yqVzMl2KowmdBxjmZDlrYydbwZoYydeihTaAPtcknTim1Su3-C5Tt6WWz02Q4_QO9zSlQQLGGh7ydSw",
+        },
+        dataType: "json",
+        type: "GET",
+        success: callback
+        };
         
-//         $.ajax(settings);
-// }
+        $.ajax(settings);
+}
+
+function displaySpotifySearchData(data) {
+    console.log(`This displays data: ${data}`);
+    // const results = data.items.map((item, index) => renderResult(item));
+    // $('.js-search-results').html(results);
+  }
 
 // function renderResultFromEdmApi(result){};
 
@@ -82,39 +105,16 @@ function getCity(wordsArr){
 // //   `;
 // }
 
-function getLocationId(data){
-    console.log(data);
-    console.log(data.data[0].id)
-    locationId = data.data[0].id;
-};
-
-
-function displayEdmSearchData(arrayData){
-    console.log(arrayData);
-    console.log(arrayData.data);
-    const results = arrayData.data.map((item, index) => renderEdmResult(item));
-    $('.js-search-results').html(results);
-};
-
-function renderEdmResult(data){
-    let eventName = '';
-    let date = '';
-
-    if(data.artistList.length > 0){
-        eventName = data.artistList[0].name
-        date = data.date;
-    }
-
-    return `<div class="clickMeExample">${eventName}</div>
-            <div>${date}</div>`;
+function grabWords(string){
+    let stringArray = string.split(" ");
+    return stringArray;
 }
 
-function displaySpotifySearchData(data) {
-    // console.log(`This displays data: ${data}`);
-    // const results = data.items.map((item, index) => renderResult(item));
-    // $('.js-search-results').html(results);
-  }
+function getCity(wordsArr){
+    return wordsArr.slice(0, wordsArr.length-1).join(" ");
+}
 
+//listen when the user interacts with the page
 function watchSubmit(){
     $('.js-search-form').submit(event => {
         event.preventDefault();
@@ -129,22 +129,24 @@ function watchSubmit(){
         queryTarget.val("");
 
         getLocationFromUser(cityWithNoComma, state, getLocationId);
+
         setTimeout(function(){ 
             getDataFromLocation(locationId, displayEdmSearchData) 
         }, 3000);
     })
 
-    // $('.js-search-results').on('click', event => {
-    //     event.stopPropagation();
+    $('.js-search-results').on('click','.clickMe', event => {
+        event.stopPropagation();
 
-    //     const queryTarget = $(event.currentTarget);
-    //     console.log(`queryTarget is ` + queryTarget);
-    //     const query = queryTarget.val();
-    //     console.log(`query is ` + query);
+        const queryTarget = $(event.currentTarget);
+        console.log(`queryTarget is `, queryTarget);
+        const query = queryTarget.text();
+        console.log(`query is `, query);
 
-    //     queryTarget.val("");
-    //     // getDataFromSpotifyApi(query, displaySpotifySearchData);
-    // })
+        queryTarget.val("");
+        getDataFromSpotifyApi(query, displaySpotifySearchData);
+    })
+
 }
 
 $(watchSubmit);
