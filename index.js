@@ -1,12 +1,77 @@
-// 'use strict';
+'use strict';
 
 const EDM_ENDPOINT_LOCATION = 'https://edmtrain.com/api/locations?';
 const EDM_ENDPOINT_EVENTS = 'https://edmtrain.com/api/events?'
 const SPOTIFY_ENDPOINT = 'https://api.spotify.com/v1/';
+const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 const CLIENT_ID = '82abf1d0-fa21-4a55-b904-64476c4a85d0';
-let locationId = [];
+const USER = {
+    locationId: null
+};
+const YOUTUBE_SEARCH = {
+    artist: '',
+    song: ''
+};
 
-/*                EDM TRAIN               */
+const stateCities = {
+    'Alabama': ['Alabama', 'Montgomery'],
+    'Alaska': ['Anchorage'],
+    'Arizona': ['Phoenix', 'Tucson','Mesa','Chandler','Glendale'],
+    'Arkansas': ['Little Rock','Forth Smith','Fayetteville','Springdale'],
+    'California': ['Los Angeles','San Diego','San Jose','San Francisco','Fresno','Sacramento'],
+    'Colorado': ['Denver','Colorado Springs','Aurora','Fort Collins','Lakewood'],
+    'Connecticut': ['Bridgeport','New Haven','Stamford','Hartford','Waterbury'],
+    'Delaware': ['Wilmington','Dover','Newark','Middletown','Smyrna'],
+    'Florida': ['Jacksonville','Miami','Tampa','Orlando','Tallahassee'],
+    'Georgia': ['Atlanta','Augusta','Columbus','Macon','Savannah'],
+    'Hawaii': ['Honolulu','Hilo'],
+    'Idaho': ['Boise','Meridian','Nampa'],
+    'Illinois': ['Chicago','Aurora','Rockford'],
+    'Indiana': ['Indianapolis','Fort Wayne'],
+    'Iowa': ['Des Moines', 'Cedar Rapids'],
+    'Kansas': ['Wichita','Overland Park','Kansas City'],
+    'Kentucky': ['Louisville','Lexington','Bowling Green'],
+    'Louisiana': ['New Orleans','Baton Rouge'],
+    'Maine': ['Portland','Lewiston'],
+    'Maryland': ['Baltimore','Frederick'],
+    'Massachusetts': ['Boston','Worcester'],
+    'Michigan': ['Detroit','Grand Rapids','Ann Arbor','East Lansing'],
+    'Minnesota': ['Minneapolis','Saint Paul','Rochester'],
+    'Mississippi': ['Jackson','Gulfport','Southhaven'],
+    'Missouri': ['Kansas City','Saint Louis'],
+    'Montana': ['Billings','Missoula'],
+    'Nebraska': ['Omaha','Lincoln'],
+    'Nevada': ['Las Vegas','Henderson'],
+    'New Hampshire': ['Manchester','Nashua'],
+    'New Jersey': ['Newark','Jersey City'],
+    'New Mexico': ['Albuquerque','Las Cruces'],
+    'New York': ['New York City','Buffalo','Rochester','Syracuse','Albany'],
+    'North Carolina': ['Charlotte','Raleigh','Greensboro'],
+    'North Dakota': ['Fargo','Bismarck','Grand Forks'],
+    'Ohio': ['Columbus','Cincinnati','Cleveland','Dayton','Toldeo','Akron'],
+    'Oklahoma': ['Oklahoma City','Tulsa'],
+    'Oregon': ['Portland','Salem'],
+    'Pennsylvania': ['Philadelphia','Pittsburgh','Allentown'],
+    'Rhode Island': ['Providence','Warwick'],
+    'South Carolina': ['Columbia','Charleston','North Charleston'],
+    'South Dakota': ['Sioux Falls','Rapid City'],
+    'Tennessee': ['Nashville','Memphis','Knoxville'],
+    'Texas': ['Houston','San Antonio','Dallas','Austin','Fort Worth'],
+    'Utah': ['Salt Lake City','West Valley City'],
+    'Vermont': ['Burlington','Essex'],
+    'Virgina': ['Virginia Beach','Norfolk'],
+    'Washington': ['Seattle','Spokane','Tacoma'],
+    'West Virgina': ['Charleston','Huntington'],
+    'Wisconsin': ['Wilwaukee','Madison'],
+    'Wyoming': ['Cheyenne','Casper']
+}
+
+console.log(stateCities.Alabama[1]);
+
+var spotifyApi = new SpotifyWebApi();
+spotifyApi.setAccessToken('BQCK0yq-kur_JPo3SY5a8uJHUdiHt311T-chY6w4s6pnvtgTdcwAwhlLT9M9I-uET5xcth8cgnkqcKT0Rm3Sbqnvy2sF23RuXjsM5p9h0etSpIu2OHjQ1kRsFYBVgcs_YGSwpWwFGX6Uwg');
+
+/*                                  EDM TRAIN                                     */
 
 //When user inputs a state and city, returns a JSON, goal is to grab the location ID
 function getLocationFromUser(city, state, callback){
@@ -29,7 +94,7 @@ function getLocationFromUser(city, state, callback){
 function getLocationId(data){
     console.log(data);
     console.log(data.data[0].id)
-    locationId = data.data[0].id;
+    USER.locationId = data.data[0].id;
 };
 
 //Uses the location ID to filter the JSON of a specific location
@@ -63,47 +128,112 @@ function displayEdmSearchData(arrayData){
 function renderEdmResult(data){
 
     const artistName = data.artistList[0].name;
+    let date = data.date.slice(5);
 
     return `
-    <div class="col-3"><button class="clickMe">${artistName}</button>
-            <div>${data.date}</div><div>`;
+    <div class="col-3 button-centered">
+            <button class="clickMe">${artistName}</button>
+            <div class="date-position">${date}</div>
+    </div>`;
 }
 
-/*                      SPOTIFY                        */
+/*                                          SPOTIFY                                            */
 
 function getDataFromSpotifyApi(searchTerm, callback){
+
+    spotifyApi.searchArtists(`${searchTerm}`)
+        .then(function(data) {
+            console.log('Search artists ', data);
+            console.log(data.artists.items[0].id);
+        let id = data.artists.items[0].id;
+        displaySpotifySearchData(id);
+        }, function(err) {
+        console.error(err);
+        });
+}
+
+
+function displaySpotifySearchData(data) {
+    console.log(`This displays data: ${data}`);
+
+    spotifyApi.getArtistTopTracks(data,'US').
+    then(function(data){
+        console.log(data);
+        const results = data.tracks
+        .map((item, index) => renderResultFromSpotifyApi(item));
+
+    $('.js-track-results').html(results.join(''));
+    }, function(err){
+        console.error(err);
+    });
+  }
+
+
+function renderResultFromSpotifyApi(result){
+    console.log(result);
+    return `<div class="col-3">
+                <div class="song-box">${result.name}</div>
+            </div>`
+}
+
+/*                                           YOUTUBE API                                       */
+function getDataFromApi(searchTerm, callback){
     const settings = {
-        url: SPOTIFY_ENDPOINT,
+        url: YOUTUBE_SEARCH_URL,
         data: {
-            q: `${searchTerm}`,
-            ids: '2CIMQHirSU0MQqyYHq0eOx%2C57dN52uHvrHOxijzpIgu3E%2C1vCWHaC5f2uS3yhpwWbIA6',
-            limit: 10
-        },
-        headers:{
-            Authorization: "Bearer BQAvw7SOZj8xDaR03KAIW1tyN2rUAUlPfkpvstDWYdKaeTngLEAH3u4de861gT_yqVzMl2KowmdBxjmZDlrYydbwZoYydeihTaAPtcknTim1Su3-C5Tt6WWz02Q4_QO9zSlQQLGGh7ydSw",
+            q: searchTerm,
+            part: "snippet",
+            key: "AIzaSyC68NGJp8YjxtvckrxeRGQ3JvCf3E4MJVU",
+            maxResults: 1
         },
         dataType: "json",
         type: "GET",
         success: callback
         };
-        
         $.ajax(settings);
 }
 
-function displaySpotifySearchData(data) {
-    console.log(`This displays data: ${data}`);
-    // const results = data.items.map((item, index) => renderResult(item));
-    // $('.js-search-results').html(results);
+function renderResult(result){
+    return `
+      <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  target="_blank"><img src="${result.snippet.thumbnails.medium.url}"/></a>
+  `;
+}
+
+function displayYouTubeSearchData(data) {
+    console.log(data);
+    const results = data.items.map((item, index) => renderResult(item));
+    $('.js-youtube-results').html(results);
+}
+
+function appendStates(obj){
+    Object.keys(obj).forEach(key => {
+        $('.states').append(`<option value="${key}">${key}</option>`);
+    })
+}
+
+function appendCities(array){
+    array.forEach(element => {
+        $('.cities').append(`<option value="${element}">${element}</option>`);
+    })
+}
+
+function changeCity(){
+    $('.states').on('change', function(event){
+      event.preventDefault();
+
+      $('.cities').html("");
+  
+      let currentStateValue = $(this).val();
+      console.log(currentStateValue);
+     
+      for ( let key in stateCities ){
+        if (key == currentStateValue){
+          appendCities(stateCities[key]);
+        }
+      }
+  
+    });
   }
-
-// function renderResultFromEdmApi(result){};
-
-// function renderResultFromSpotifyApi(result){
-//     console.log(result);
-// //     return `
-// //       <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  target="_blank"><img src="${result.snippet.thumbnails.medium.url}"/></a>
-// //   `;
-// }
 
 function grabWords(string){
     let stringArray = string.split(" ");
@@ -115,24 +245,44 @@ function getCity(wordsArr){
 }
 
 //listen when the user interacts with the page
+
 function watchSubmit(){
+
     $('.js-search-form').submit(event => {
         event.preventDefault();
-        const queryTarget = $(event.currentTarget).find('.js-query');
-        const query = queryTarget.val();
+        // const queryTarget = $(event.currentTarget).find('.state');
+        // const query = queryTarget.val();
 
-        const string = grabWords(query);
-        const city = getCity(string);
-        const cityWithNoComma = city.substring(0,city.length - 1);
-        const state = string[string.length-1];
+        const state = $(event.currentTarget).find('.states').val();
+        const city = $(event.currentTarget).find('.cities').val();
+        console.log(`state is ${state}`);
+        console.log(`cities is ${city}`);
 
-        queryTarget.val("");
+        const fullString = city + ', ' + state;
 
-        getLocationFromUser(cityWithNoComma, state, getLocationId);
+        // const string = grabWords(query);
+        // const city = getCity(string);
+        // const cityWithNoComma = city.substring(0,city.length - 1);
+        // const state = string[string.length-1];
+
+        // queryTarget.val("");
+
+        getLocationFromUser(city, state, getLocationId);
 
         setTimeout(function(){ 
-            getDataFromLocation(locationId, displayEdmSearchData) 
+            getDataFromLocation(USER.locationId, displayEdmSearchData);
+            $('.artists').show();
         }, 3000);
+
+    
+        $(".js-search-form button").click(function() {
+            setTimeout(function(){ 
+                $(html, body).animate({
+                    scrollTop: $(".artists").offset().top
+                }, 2000);
+            }, 6000);
+        });
+
     })
 
     $('.js-search-results').on('click','.clickMe', event => {
@@ -143,10 +293,51 @@ function watchSubmit(){
         const query = queryTarget.text();
         console.log(`query is `, query);
 
+        YOUTUBE_SEARCH.artist = query;
+
         queryTarget.val("");
         getDataFromSpotifyApi(query, displaySpotifySearchData);
+        $('.tracks').show();
+
+        // $(".js-search-results .clickMe").click(function() {
+        //     setTimeout(function(){ 
+        //         $(html, body).animate({
+        //             scrollTop: $(".artists").offset().top
+        //         }, 100);
+        //     }, 6000);
+        // });
+    })
+
+    $('.js-track-results').on('click','.song-box',event => {
+        event.preventDefault();
+        const queryTarget = $(event.currentTarget);
+        const query = queryTarget.text();
+
+        console.log(`Youtube queryTarget is ${queryTarget}`);
+        console.log(`Youtube query is ${query}`);
+        YOUTUBE_SEARCH.song = query;
+
+        let youtubeSearchQuery = YOUTUBE_SEARCH.artist + ' ' + YOUTUBE_SEARCH.song;
+
+        console.log(query);
+
+        queryTarget.val("");
+        getDataFromApi(youtubeSearchQuery, displayYouTubeSearchData); 
+
+        $('.youtube').show();
+
+        console.log(`artist is ${YOUTUBE_SEARCH.artist}`);
+        console.log(`song is ${YOUTUBE_SEARCH.song}`);
     })
 
 }
 
+$(function(){
+    appendStates(stateCities);
+    $('.artists').hide();
+    $('.tracks').hide();
+    $('.youtube').hide();
+});
+
+$(changeCity);
 $(watchSubmit);

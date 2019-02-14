@@ -4,39 +4,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>EDM</title>
-    <link rel="stylesheet" type="text" href="index.css">
-    <link rel="stylesheet" href="responsiveDesign.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="responsiveDesign.css">
 </head>
 <body>
-    <header>
-        <div class="row">
-            <div class="col-sm-12">
-                <h1>EDM</h1>
+    <main>
+        <div class="container">
+            <div class="child">
+                    <h1>LETSFUCKINGRAGE</h1>
+                <form action="#" class="js-search-form">
+                        <select class="states custom-select">
+                            <option>Select State</option>
+                        </select>
+                        <select class="cities">
+                            <option>Select City</option>
+                        </select>
+                        <!-- <label for="search"></label>
+                        <input placeholder="city, state" type="text" name="search" id="search" class="js-query"> -->
+                    <button type="submit">Search</button>
+                </form>
             </div>
         </div>
-        
-    </header>
 
-    <main>
-        <form action="#" class="js-search-form">
-            <label for="search"></label>
-            <input placeholder="city, state" type="text" name="search" id="search" class="js-query">
-            <button type="submit">Search</button>
-        </form>
+        <section class="artists">
+            <h2>Artists and Dates</h2>
+            <div class="js-search-results"></div>
+        </section>
+    
+        <section class="tracks">
+            <h2>The Artist's Top Songs</h2>
+            <div class="js-track-results"></div>
+        </section>
+
+        <section class="youtube">
+            <h2>Youtube Results</h2>
+            <div class="js-youtube-results"></div>
+        </section>
+
+        <!-- <footer id="footer">
+                <div class="row">
+                    <div class="col-sm-12 watermark">
+                        Created by: wannab3d3v3lop3r
+                    </div>
+                </div>
+        </footer> -->
     </main>
 
-    <section>
-        <h2>Results</h2>
-        <div class="js-search-results"></div>
-    </section>
-
-    <footer>
-        <div class="row">
-            <div class="col-sm-12 watermark">
-                Created by: wannab3d3v3lop3r
-            </div>
-        </div>
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/spotify-web-api-js@1.1.1/src/spotify-web-api.min.js"></script>
     <script
         src="https://code.jquery.com/jquery-3.3.1.js"
