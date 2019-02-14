@@ -69,7 +69,7 @@ const stateCities = {
 console.log(stateCities.Alabama[1]);
 
 var spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken('BQCK0yq-kur_JPo3SY5a8uJHUdiHt311T-chY6w4s6pnvtgTdcwAwhlLT9M9I-uET5xcth8cgnkqcKT0Rm3Sbqnvy2sF23RuXjsM5p9h0etSpIu2OHjQ1kRsFYBVgcs_YGSwpWwFGX6Uwg');
+spotifyApi.setAccessToken('BQDhaufhaCy81TUol_BCSbUG1OnNG8mdZRmNpa4Hn8Dr5myohVfoBEtPX7j7bMlHJFKgpSJ3oVYxF8GIJw7fAOgimXbzELc0z8PWxq-Z8HdNs9HkYbgW3BXx2y0175xm69r4fq8GHbQV7Q');
 
 /*                                  EDM TRAIN                                     */
 
@@ -172,7 +172,7 @@ function displaySpotifySearchData(data) {
 function renderResultFromSpotifyApi(result){
     console.log(result);
     return `<div class="col-3">
-                <div class="song-box">${result.name}</div>
+                <button class="song-box">${result.name}</button>
             </div>`
 }
 

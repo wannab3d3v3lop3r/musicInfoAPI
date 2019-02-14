@@ -76,3 +76,33 @@
       width: 100%;
     }
   }
+
+    /* Non-mobile, grid */
+    @media only screen and (min-width: 400px) {
+      .child {
+        left: 28%;
+      }
+
+      .col-2 {
+        width: 12.5%;
+      }
+      /* 3 columns, 3/12 in % */
+      .col-3 {
+        width: 25%;
+      }
+    
+      /* 4 columns */
+      .col-4 {
+        width: 33.33%;
+      }
+    
+      /* 6 columns */
+      .col-6 {
+        width: 50%;
+      }
+    
+      /* 12 columns */
+      .col-12 {
+        width: 100%;
+      }
+    }
