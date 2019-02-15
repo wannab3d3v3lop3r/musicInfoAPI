@@ -7,7 +7,8 @@ After a few clicks, it will direct you to the song on Youtube's page.
 
 Uses EDMTrain, Spotify, and Youtube API.
 
-//USER EXPERINCE
+//USER EXPERIENCE
+
 Users will be able to select certain cities within a state.
 They will be able to see which EDM artist will be playing on a particular date.
 Once they click on the artist, their top songs will populate.
