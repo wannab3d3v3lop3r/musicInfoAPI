@@ -67,7 +67,7 @@ const stateCities = {
 }
 
 var spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken('BQDIrbIKuCKxYiZmjaVeUn-XTlO3e4BZ5iZ1G3eYWSssITj4XTfpEpTOWmbUpOJxCWAwo74J-2JvVuBMGsp9JEtYlLIhcuI4CS_NH1X1ggglsRfl32qTul72mxZ4RBGD8iqC1YgI27id3w');
+spotifyApi.setAccessToken('BQDR2-64RA2SO7g5zvhCD9Tjv3SpPAFAuCWPlDwh4JlF86ds4fxaPh9Lpxe13k5OjM1Ed0Jq9siQNt3n90jAUBsQBBV8pgkRVUro7tYbf24eqRpn3g0snYETAFhHWuhGJq2p2bRuyY1NpA');
 
 /*                                  EDM TRAIN                                     */
 
@@ -314,12 +314,16 @@ function watchSubmit(){
 
 $(function(){
 
-    $(".js-search-form button").on('click',function() {
-        setTimeout(function(){ 
+    let window_size = $(window).height();
+    console.log(window_size);
+
+    $('.container').css('height',window_size);
+
+
+    $(".search").on('click',function() {
             $('html', 'body').animate({
                 scrollTop: $(".artists").offset().top
             }, 2000);
-        }, 6000);
     });
 
     $(".js-search-results .clickMe").on('click',function() {
@@ -331,9 +335,6 @@ $(function(){
     });
 
     appendStates(stateCities);
-    $('.artists').hide();
-    $('.tracks').hide();
-    $('.youtube').hide();
 });
 
 $(changeCity);
