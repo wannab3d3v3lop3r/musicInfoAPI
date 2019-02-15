@@ -14,7 +14,7 @@ const YOUTUBE_SEARCH = {
 };
 
 const stateCities = {
-    'Alabama': ['Alabama', 'Montgomery'],
+    'Alabama': ['Birmingham', 'Montgomery'],
     'Alaska': ['Anchorage'],
     'Arizona': ['Phoenix', 'Tucson','Mesa','Chandler','Glendale'],
     'Arkansas': ['Little Rock','Forth Smith','Fayetteville','Springdale'],
@@ -66,10 +66,8 @@ const stateCities = {
     'Wyoming': ['Cheyenne','Casper']
 }
 
-console.log(stateCities.Alabama[1]);
-
 var spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken('BQDhaufhaCy81TUol_BCSbUG1OnNG8mdZRmNpa4Hn8Dr5myohVfoBEtPX7j7bMlHJFKgpSJ3oVYxF8GIJw7fAOgimXbzELc0z8PWxq-Z8HdNs9HkYbgW3BXx2y0175xm69r4fq8GHbQV7Q');
+spotifyApi.setAccessToken('BQDIrbIKuCKxYiZmjaVeUn-XTlO3e4BZ5iZ1G3eYWSssITj4XTfpEpTOWmbUpOJxCWAwo74J-2JvVuBMGsp9JEtYlLIhcuI4CS_NH1X1ggglsRfl32qTul72mxZ4RBGD8iqC1YgI27id3w');
 
 /*                                  EDM TRAIN                                     */
 
@@ -250,39 +248,27 @@ function watchSubmit(){
 
     $('.js-search-form').submit(event => {
         event.preventDefault();
-        // const queryTarget = $(event.currentTarget).find('.state');
-        // const query = queryTarget.val();
+
+        let userInput = true;
 
         const state = $(event.currentTarget).find('.states').val();
         const city = $(event.currentTarget).find('.cities').val();
         console.log(`state is ${state}`);
         console.log(`cities is ${city}`);
 
-        const fullString = city + ', ' + state;
+        if(state === 'state'){
+            alert('Please pick a state');
+            userInput = false;
+        }
 
-        // const string = grabWords(query);
-        // const city = getCity(string);
-        // const cityWithNoComma = city.substring(0,city.length - 1);
-        // const state = string[string.length-1];
+        if(userInput){
+            getLocationFromUser(city, state, getLocationId);
 
-        // queryTarget.val("");
-
-        getLocationFromUser(city, state, getLocationId);
-
-        setTimeout(function(){ 
-            getDataFromLocation(USER.locationId, displayEdmSearchData);
-            $('.artists').show();
-        }, 3000);
-
-    
-        $(".js-search-form button").click(function() {
             setTimeout(function(){ 
-                $(html, body).animate({
-                    scrollTop: $(".artists").offset().top
-                }, 2000);
-            }, 6000);
-        });
-
+                getDataFromLocation(USER.locationId, displayEdmSearchData);
+                $('.artists').show();
+            }, 3000);
+        }    
     })
 
     $('.js-search-results').on('click','.clickMe', event => {
@@ -299,13 +285,7 @@ function watchSubmit(){
         getDataFromSpotifyApi(query, displaySpotifySearchData);
         $('.tracks').show();
 
-        // $(".js-search-results .clickMe").click(function() {
-        //     setTimeout(function(){ 
-        //         $(html, body).animate({
-        //             scrollTop: $(".artists").offset().top
-        //         }, 100);
-        //     }, 6000);
-        // });
+
     })
 
     $('.js-track-results').on('click','.song-box',event => {
@@ -333,6 +313,23 @@ function watchSubmit(){
 }
 
 $(function(){
+
+    $(".js-search-form button").on('click',function() {
+        setTimeout(function(){ 
+            $('html', 'body').animate({
+                scrollTop: $(".artists").offset().top
+            }, 2000);
+        }, 6000);
+    });
+
+    $(".js-search-results .clickMe").on('click',function() {
+        setTimeout(function(){ 
+            $('html', 'body').animate({
+                scrollTop: $(".artists").offset().top
+            }, 100);
+        }, 6000);
+    });
+
     appendStates(stateCities);
     $('.artists').hide();
     $('.tracks').hide();
