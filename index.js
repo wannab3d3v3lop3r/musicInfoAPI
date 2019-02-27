@@ -87,7 +87,7 @@ const stateCities = {
 }
 
 var spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken('BQB9ai92iLjtNlpatxRSq-F_lkb91eeFS78LbJzHa671ozo4TUOQk2-lHaWF27c-KE1HGA6Ste0ug_7q7J9ITmCk6m9T2w25TS1pVZV_fqe6cqIKQO-1_vkfMRIiF0ydlKSbhnmjz7lgjg');
+spotifyApi.setAccessToken('BQAf2WjP461MbqFZFeOIjppg4qNHUIEuQpbRl-PQZX-95f3ERbsBK7hVVa7cncF0I1CV_XlYAP0c6YSuNCLMfyvWnU4vGPlg8Hsb21N6SvzNt97My6-_781bhWH7UFdfQnYCjXzaDNm4wQ');
 
 /*                                  EDM TRAIN                                     */
 
