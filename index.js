@@ -119,7 +119,7 @@ function getDataFromLocation(locationId, callback){
         url: EDM_ENDPOINT_EVENTS,
     data: {
         locationIds: locationId,
-        client: CLIENT_ID
+        client: EDM_CLIENT_ID
         },
     ContentType: 'application/javascript',
     dataType: 'json',
@@ -186,6 +186,8 @@ function renderResultFromSpotifyApi(result){
 }
 
 /*                                           YOUTUBE API                                       */
+
+
 function getDataFromApi(searchTerm, callback){
     const settings = {
         url: YOUTUBE_SEARCH_URL,
@@ -202,14 +204,14 @@ function getDataFromApi(searchTerm, callback){
         $.ajax(settings);
 }
 
-function renderResult(result){
+function renderYoutubeResult(result){
     return `
       <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  target="_blank"><img alt="youtube video" src="${result.snippet.thumbnails.medium.url}"/></a>
   `;
 }
 
 function displayYouTubeSearchData(data) {
-    const results = data.items.map((item, index) => renderResult(item));
+    const results = data.items.map((item, index) => renderYoutubeResult(item));
     $('.js-youtube-results').html(results);
 }
 
@@ -254,17 +256,11 @@ function getCity(wordsArr){
 function convertDateToMonth(firstTwoDigits){
 
     let month = '';
-    console.log(`digits are ${firstTwoDigits}`);
-    console.log(`first two digits are ${firstTwoDigits.slice(6,7)}`);
-    console.log(firstTwoDigits.slice(-2).toString());
 
     Object.keys(months).forEach(keys => {
 
-        console.log(`Keys inside convertDatetoMonth is ${keys}`);
-
         if(firstTwoDigits.slice(6,7) == months[keys]){
             month = keys;
-            
         }
     });
 
@@ -337,25 +333,13 @@ function watchSubmit(){
 
 }
 
+
 $(function(){
 
+    //adjust the container's height to its current viewport
     let window_size = $(window).height();
 
     $('.container').css('height',window_size);
-
-    $(".search").on('click',function() {
-            $('html', 'body').animate({
-                scrollTop: $(".artists").offset().top
-            }, 2000);
-    });
-
-    $(".js-search-results .artist-name").on('click',function() {
-        setTimeout(function(){ 
-            $('html', 'body').animate({
-                scrollTop: $(".artists").offset().top
-            }, 100);
-        }, 6000);
-    });
 
     appendStates(stateCities);
 });
