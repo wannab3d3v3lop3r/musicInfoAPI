@@ -8,7 +8,11 @@
     bottom: 0;
 }
 
-.child h1{
+body{
+    margin: 0 !important;
+}
+
+.form-container h1{
     font-family: 'lombok';
 }
 
@@ -32,10 +36,10 @@ input{
     width:265px;
 }
 
-.clickMe {
+.artist-name {
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
-    font-size: 24px !important;
+    font-size: 27px;
     height: 150px;
     width: 100%;
     text-align: center;
@@ -45,7 +49,6 @@ input{
     background-repeat: no-repeat;
     color: white;
     display: inline-block;
-    font-size:16px;
 }
 
 .edm-box {
@@ -59,6 +62,7 @@ input{
 
 .container {
     background: url("wallpaper.jpg") no-repeat fixed center;
+    max-height: 1366px;
     opacity: .8;
     position: relative;
     margin-left: auto;
@@ -66,13 +70,14 @@ input{
     width: 100%;
 }
 
-.child {
+.form-container {
+    width: 300px;
+    text-align: center;
+    background-color: #151515;
+    padding: 30px;
     position: absolute;
     left: 40%;
-    top: 40%;
-    /* width: 25%;
-    margin-left: auto;
-    margin-right: auto; */
+    top: 30%;
     color:white;
 }
 
@@ -126,6 +131,31 @@ section h2{
     height: 100%;
 }
 
+.youtube {
+    margin-top: 600px;
+    margin-bottom: 100px;
+}
+
 .js-youtube-results{
     text-align: center;
+}
+
+.select-row, .button-row {
+    display: block;
+}
+
+.button-row {
+    margin-top: 15px;
+}
+
+.button-row .search {
+    background-color: #151515;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border: 1px white solid;
 }

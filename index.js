@@ -1,18 +1,38 @@
 'use strict';
 
+//endpoints
 const EDM_ENDPOINT_LOCATION = 'https://edmtrain.com/api/locations?';
 const EDM_ENDPOINT_EVENTS = 'https://edmtrain.com/api/events?'
 const SPOTIFY_ENDPOINT = 'https://api.spotify.com/v1/';
 const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
-const CLIENT_ID = '82abf1d0-fa21-4a55-b904-64476c4a85d0';
+const EDM_CLIENT_ID = '82abf1d0-fa21-4a55-b904-64476c4a85d0';
 const USER = {
     locationId: null
 };
+
+//Mutable searches when user clicks on artists
 const YOUTUBE_SEARCH = {
     artist: '',
     song: ''
 };
 
+//convert number into month names
+let months = {
+    JANURARY: 1,
+    FEBRUARY: 2,
+    MARCH: 3,
+    APRIL: 4,
+    MAY: 5,
+    JUNE: 6,
+    JULY: 7,
+    AUGUST: 8,
+    SEPTEMBER: 9,
+    OCTOBER: 10,
+    NOVEMBER: 11,
+    DECEMBER: 12
+};
+
+//static information of states and their cities
 const stateCities = {
     'Alabama': ['Birmingham', 'Montgomery'],
     'Alaska': ['Anchorage'],
@@ -67,7 +87,7 @@ const stateCities = {
 }
 
 var spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken('BQDL5iKKwFnM_H2-syKGQ2TfoQftmxWlma6BTYk4cqNfYv2pM8woHrRLJ9AEB9IhACfPpTrn5yaNvAc6uaFVetl5i1XSeQiIqVBeBDUTaScGtHEz8lC-pCzxpMUt0aojScuEcezmJAagEg');
+spotifyApi.setAccessToken('BQB9ai92iLjtNlpatxRSq-F_lkb91eeFS78LbJzHa671ozo4TUOQk2-lHaWF27c-KE1HGA6Ste0ug_7q7J9ITmCk6m9T2w25TS1pVZV_fqe6cqIKQO-1_vkfMRIiF0ydlKSbhnmjz7lgjg');
 
 /*                                  EDM TRAIN                                     */
 
@@ -78,7 +98,7 @@ function getLocationFromUser(city, state, callback){
         data: {
             city: city,
             state: state,
-            client: CLIENT_ID,
+            client: EDM_CLIENT_ID,
         },
         ContentType: 'application/javascript',
         dataType: 'json',
@@ -90,14 +110,11 @@ function getLocationFromUser(city, state, callback){
 
 //callback Function for getLocationFromUser function
 function getLocationId(data){
-    console.log(data);
-    console.log(data.data[0].id)
     USER.locationId = data.data[0].id;
 };
 
 //Uses the location ID to filter the JSON of a specific location
 function getDataFromLocation(locationId, callback){
-    console.log(locationId);
     const settings = {
         url: EDM_ENDPOINT_EVENTS,
     data: {
@@ -114,8 +131,6 @@ function getDataFromLocation(locationId, callback){
 
 //callback function for getDataFromLocation. Filters and returns an array of the JSON into html
 function displayEdmSearchData(arrayData){
-    console.log(arrayData);
-    console.log(arrayData.data);
     const results = arrayData.data
         .filter((item) => item.artistList.length > 0)
         .map((item, index) => renderEdmResult(item));
@@ -126,12 +141,14 @@ function displayEdmSearchData(arrayData){
 function renderEdmResult(data){
 
     const artistName = data.artistList[0].name;
-    let date = data.date.slice(5);
+    // let date = data.date.slice(5);
+
+    let month = convertDateToMonth(data.date);
 
     return `
     <div class="col-3 button-centered">
-            <button class="clickMe">${artistName}</button>
-            <div class="date-position">${date}</div>
+            <button class="artist-name">${artistName}</button>
+            <div class="date-position">${month}</div>
     </div>`;
 }
 
@@ -141,25 +158,20 @@ function getDataFromSpotifyApi(searchTerm, callback){
 
     spotifyApi.searchArtists(`${searchTerm}`)
         .then(function(data) {
-            console.log('Search artists ', data);
-            console.log(data.artists.items[0].id);
-        let id = data.artists.items[0].id;
-        displaySpotifySearchData(id);
+            let id = data.artists.items[0].id;
+            displaySpotifySearchData(id);
         }, function(err) {
-        console.error(err);
+            console.error(err);
         });
 }
 
 
 function displaySpotifySearchData(data) {
-    console.log(`This displays data: ${data}`);
 
     spotifyApi.getArtistTopTracks(data,'US').
     then(function(data){
-        console.log(data);
         const results = data.tracks
         .map((item, index) => renderResultFromSpotifyApi(item));
-
     $('.js-track-results').html(results.join(''));
     }, function(err){
         console.error(err);
@@ -168,7 +180,6 @@ function displaySpotifySearchData(data) {
 
 
 function renderResultFromSpotifyApi(result){
-    console.log(result);
     return `<div class="col-3">
                 <button class="song-box">${result.name}</button>
             </div>`
@@ -193,12 +204,11 @@ function getDataFromApi(searchTerm, callback){
 
 function renderResult(result){
     return `
-      <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  target="_blank"><img src="${result.snippet.thumbnails.medium.url}"/></a>
+      <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  target="_blank"><img alt="youtube video" src="${result.snippet.thumbnails.medium.url}"/></a>
   `;
 }
 
 function displayYouTubeSearchData(data) {
-    console.log(data);
     const results = data.items.map((item, index) => renderResult(item));
     $('.js-youtube-results').html(results);
 }
@@ -222,7 +232,6 @@ function changeCity(){
       $('.cities').html("");
   
       let currentStateValue = $(this).val();
-      console.log(currentStateValue);
      
       for ( let key in stateCities ){
         if (key == currentStateValue){
@@ -242,6 +251,28 @@ function getCity(wordsArr){
     return wordsArr.slice(0, wordsArr.length-1).join(" ");
 }
 
+function convertDateToMonth(firstTwoDigits){
+
+    let month = '';
+    console.log(`digits are ${firstTwoDigits}`);
+    console.log(`first two digits are ${firstTwoDigits.slice(6,7)}`);
+    console.log(firstTwoDigits.slice(-2).toString());
+
+    Object.keys(months).forEach(keys => {
+
+        console.log(`Keys inside convertDatetoMonth is ${keys}`);
+
+        if(firstTwoDigits.slice(6,7) == months[keys]){
+            month = keys;
+            
+        }
+    });
+
+    let monthAndDate = month + ' ' + firstTwoDigits.slice(-2).toString();
+
+    return monthAndDate;
+}
+
 //listen when the user interacts with the page
 
 function watchSubmit(){
@@ -253,8 +284,6 @@ function watchSubmit(){
 
         const state = $(event.currentTarget).find('.states').val();
         const city = $(event.currentTarget).find('.cities').val();
-        console.log(`state is ${state}`);
-        console.log(`cities is ${city}`);
 
         if(state === 'state'){
             alert('Please pick a state');
@@ -266,48 +295,44 @@ function watchSubmit(){
 
             setTimeout(function(){ 
                 getDataFromLocation(USER.locationId, displayEdmSearchData);
+                $('.tracks').hide();
+                $('.youtube').hide();
                 $('.artists').show();
             }, 3000);
         }    
     })
 
-    $('.js-search-results').on('click','.clickMe', event => {
+    $('.js-search-results').on('click','.artist-name', event => {
         event.stopPropagation();
 
+        $('.youtube').hide();
+        $('.tracks').show();
+
         const queryTarget = $(event.currentTarget);
-        console.log(`queryTarget is `, queryTarget);
         const query = queryTarget.text();
-        console.log(`query is `, query);
 
         YOUTUBE_SEARCH.artist = query;
 
+        let artistName = query.toUpperCase();
+        $('.tracks h2').text(`${artistName}'S TOP SONGS`);
+
         queryTarget.val("");
         getDataFromSpotifyApi(query, displaySpotifySearchData);
-        $('.tracks').show();
-
-
     })
 
     $('.js-track-results').on('click','.song-box',event => {
-        event.preventDefault();
+        event.stopPropagation();
         const queryTarget = $(event.currentTarget);
         const query = queryTarget.text();
 
-        console.log(`Youtube queryTarget is ${queryTarget}`);
-        console.log(`Youtube query is ${query}`);
         YOUTUBE_SEARCH.song = query;
 
         let youtubeSearchQuery = YOUTUBE_SEARCH.artist + ' ' + YOUTUBE_SEARCH.song;
-
-        console.log(query);
 
         queryTarget.val("");
         getDataFromApi(youtubeSearchQuery, displayYouTubeSearchData); 
 
         $('.youtube').show();
-
-        console.log(`artist is ${YOUTUBE_SEARCH.artist}`);
-        console.log(`song is ${YOUTUBE_SEARCH.song}`);
     })
 
 }
@@ -315,10 +340,8 @@ function watchSubmit(){
 $(function(){
 
     let window_size = $(window).height();
-    console.log(window_size);
 
     $('.container').css('height',window_size);
-
 
     $(".search").on('click',function() {
             $('html', 'body').animate({
@@ -326,7 +349,7 @@ $(function(){
             }, 2000);
     });
 
-    $(".js-search-results .clickMe").on('click',function() {
+    $(".js-search-results .artist-name").on('click',function() {
         setTimeout(function(){ 
             $('html', 'body').animate({
                 scrollTop: $(".artists").offset().top

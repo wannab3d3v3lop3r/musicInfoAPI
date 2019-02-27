@@ -9,39 +9,45 @@
     <link href="https://fonts.googleapis.com/css?family=Cardo:400,700|Oswald" rel="stylesheet">
 </head>
 <body>
-    <main>
+    <main role="main">
         <div class="container">
-            <div class="child">
-                    <h1>LETS RAGE</h1>
-                <form action="#" class="js-search-form">
-                        <select class="states">
+            <div class="form-container">
+                <h1>LETS RAGE</h1>
+                <form role="form" aria-label="State and City Information" action="#" class="js-search-form">
+                    <div class="select-row">
+                        <label for="states">States: </label>
+                        <select class="states" id="states">
                             <option value="state">Select State</option>
                         </select>
-                        <select class="cities">
+                    </div>
+                    <div class="select-row">
+                        <label for="cities">Cities: </label>
+                        <select class="cities" id="cities">
                             <option>Select City</option>
                         </select>
-                        <!-- <label for="search"></label>
-                        <input placeholder="city, state" type="text" name="search" id="search" class="js-query"> -->
-                    <button type="submit" class="search">Search</button>
+                    </div>
+                    <div class="button-row">
+                        <button type="submit" class="search">Search</button>
+                    </div>
                 </form>
             </div>
         </div>
 
         <section class="artists hidden">
             <h2>ARTISTS AND DATES</h2>
-            <div class="js-search-results"></div>
+            <div class="js-search-results" aria-live="assertive"></div>
         </section>
 
 
         <section class="tracks hidden">
-            <h2>THE ARTISTS TOP SONGS</h2>
-            <div class="js-track-results"></div>
+            <h2></h2>
+            <div class="js-track-results" aria-live="assertive"></div>
         </section>
 
 
         <section class="youtube hidden">
             <h2>YOUTUBE RESULTS</h2>
-            <div class="js-youtube-results"></div>
+            <div class="js-youtube-results" aria-live="assertive"></div>
         </section>
 
         <!-- <footer id="footer">

@@ -81,32 +81,420 @@
     }
   }
 
-    /* Non-mobile, grid */
-    @media only screen and (max-width: 400px) {
-      .child {
-        left: 28%;
-      }
+   /* Non-mobile, grid */
+   @media only screen and (max-width: 1205px) {
+    .artist-name{
+      font-size: 24px;
+    }
+  }
 
-      .col-2 {
-        width: 12.5%;
-      }
-      /* 3 columns, 3/12 in % */
-      .col-3 {
-        width: 25%;
-      }
-    
-      /* 4 columns */
-      .col-4 {
-        width: 33.33%;
-      }
-    
-      /* 6 columns */
-      .col-6 {
-        width: 50%;
-      }
-    
-      /* 12 columns */
-      .col-12 {
-        width: 100%;
+  /* Non-mobile, grid */
+  @media only screen and (max-width: 1125px) {
+    .artist-name{
+      font-size: 20px;
+    }
+  }
+
+    /* Non-mobile, grid */
+    @media only screen and (max-width: 985px) {
+    .artist-name{
+      font-size: 18px;
+    }
+    .date-position{
+      font-size: 14px;
+    }
+  }
+
+    /* Non-mobile, grid */
+    @media only screen and (max-width: 895px) {
+    .artist-name{
+      font-size: 16px;
+    }
+    .form-container{
+      left:35%;
+    }
+  }
+
+     /* Non-mobile, grid */
+     @media only screen and (max-width: 767px) {
+      .form-container{
+        left:31%;
       }
     }
+
+    /* Non-mobile, grid */
+    @media only screen and (max-width: 640px) {
+      .col-3{
+        width:50%;
+      }
+      .artist-name{
+        font-size: 22px;
+      }
+    }
+
+      /* Non-mobile, grid */
+      @media only screen and (max-width: 540px) {
+        .form-container{
+          left: 24%;
+        }
+      }
+
+    /* mobile, grid */
+    @media only screen and (max-width: 400px) {
+      .form-container {
+        left: 12%;
+      }
+    }
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+/* Portrait */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .form-container {
+      left: 0%;
+      top: 22%;
+    }
+    .states, .cities {
+      color: white;
+    }
+
+    .col-3 {
+      width: 100%;
+    }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+    .form-container {
+      left: 23%;
+      top: 6%;
+    }
+    .states, .cities {
+      color: white;
+    }
+}
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+    .form-container{
+      left: 9%;
+      top: 27%;
+    }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) { 
+    .form-container{
+      left: 29%;
+      top: 15%;
+    }
+}
+
+    /* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 414px) 
+and (max-device-width: 736px) 
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: portrait) { 
+  .form-container{
+    left: 16%;
+  }
+  .states, .cities {
+    color: white;
+  }
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 414px) 
+and (max-device-width: 736px) 
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: landscape) { 
+  .form-container{
+    left: 31%;
+    top:18%;
+  }
+}
+
+/* ----------- iPhone X ----------- */
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 812px) 
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: landscape) { 
+  .form-container{
+    left: 33%;
+    top:16%;
+  }
+  .states, .cities {
+    color: white;
+  }
+}
+
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .form-container {
+      width: 600px;
+      height: 600px;
+      top: 20%;
+      left: 12%;
+    }
+    .form-container h1{
+      font-size: 11vw;
+    }
+
+    .states, .cities {
+      font-size: 40px;
+      color: white;
+    }
+
+    .select-row label {
+      font-size: 40px;
+    }
+    .button-row {
+      margin-top: 50px;
+    }
+
+    .button-row .search {
+      padding: 44px 78px;
+    }
+    .col-3 {
+      width: 50%;
+    }
+    .artist-name {
+      font-size: 30px;
+    }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .form-container {
+      width: 600px;
+      height: 600px;
+      top: 11%;
+      left: 22%;
+    }
+    .form-container h1{
+      font-size: 9vw;
+    }
+
+    .states, .cities {
+      font-size: 30px;
+      color: white;
+    }
+
+    .select-row label {
+      font-size: 30px;
+    }
+    .button-row {
+      margin-top: 50px;
+    }
+
+    .button-row .search {
+      padding: 34px 78px;
+    }
+    .col-3 {
+      width: 50%;
+    }
+    .artist-name {
+      font-size: 30px;
+    }
+}
+
+/* ----------- iPad Pro 12.9" ----------- */
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .form-container {
+      width: 600px;
+      height: 600px;
+      top: 25%;
+      left: 23%;
+    }
+    .form-container h1{
+      font-size: 9vw;
+    }
+
+    .states, .cities {
+      font-size: 30px;
+      color: white;
+    }
+
+    .select-row label {
+      font-size: 30px;
+    }
+    .button-row {
+      margin-top: 50px;
+    }
+
+    .button-row .search {
+      padding: 44px 78px;
+    }
+    .col-3 {
+      width: 100%;
+    }
+    .artist-name {
+      font-size: 40px;
+    }
+}
+
+/* Landscape */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen 
+  and (min-device-width: 1366px) 
+  and (max-device-width: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .form-container {
+      width: 600px;
+      height: 600px;
+      top: 20%;
+      left: 29%;
+    }
+    .form-container h1{
+      font-size: 6vw;
+    }
+
+    .states, .cities {
+      font-size: 30px;
+      color: white;
+    }
+
+    .select-row label {
+      font-size: 30px;
+    }
+    .button-row {
+      margin-top: 75px;
+    }
+
+    .button-row .search {
+      padding: 44px 78px;
+    }
+    .col-3 {
+      width: 50%;
+    }
+    .artist-name {
+      font-size: 40px;
+    }
+}
+
+/* ----------- Google Pixel ----------- */
+
+/* Portrait */
+@media screen 
+  and (device-width: 411px) 
+  and (device-height: 731px) 
+  and (orientation: portrait) {
+    .form-container {
+      top: 29%;
+      left: 14%;
+    }
+    .col-3 {
+      width: 100%;
+    }
+}
+
+/* Landscape */
+@media screen 
+  and (device-width: 731px) 
+  and (device-height: 411px) 
+  and (orientation: landscape) {
+    .form-container {
+      top: 20% !important;
+      left: 31%;
+    }
+    .states,.cities {
+      color: white;
+    }
+    .col-3 {
+      width: 50%;
+    }
+}
+
+/* ----------- Google Pixel XL ----------- */
+
+/* Portrait */
+@media screen 
+  and (device-width: 411px) 
+  and (device-height: 823px) 
+  and (orientation: portrait) {
+    .form-container {
+      top: 30%;
+      left: 15%;
+    }
+}
+
+/* Landscape */
+@media screen 
+  and (device-width: 823px) 
+  and (device-height: 411px) 
+  and (orientation: landscape) {
+    .form-container {
+      top: -9%;
+      left: 15%;
+      height: 448px;
+    }
+}
+
+/* ----------- Galaxy S4, S5 and Note 3 ----------- */
+
+/* Portrait */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (orientation: portrait) {
+    .form-container {
+      top: 26%;
+      left: 10%;
+    }
+}
+
+/* Landscape */
+@media screen 
+  and (device-width: 640px) 
+  and (device-height: 360px) 
+  and (-webkit-device-pixel-ratio: 3) 
+  and (orientation: landscape) {
+    .form-container {
+      left: 29%;
+    }
+}
