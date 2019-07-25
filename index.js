@@ -80,7 +80,6 @@ const stateCities = {
     'Vermont': ['Burlington','Essex'],
     'Virgina': ['Virginia Beach','Norfolk'],
     'Washington': ['Seattle','Spokane','Tacoma'],
-    'West Virgina': ['Charleston','Huntington'],
     'Wisconsin': ['Wilwaukee','Madison'],
     'Wyoming': ['Cheyenne','Casper']
 }
@@ -106,6 +105,7 @@ function getLocationFromUser(city, state, callback){
 
 //callback Function for getLocationFromUser function
 function getLocationId(data){
+    console.log(`data`,data);
     USER.locationId = data.data[0].id;
 };
 
@@ -127,11 +127,24 @@ function getDataFromLocation(locationId, callback){
 
 //callback function for getDataFromLocation. Filters and returns an array of the JSON into html
 function displayEdmSearchData(arrayData){
-    console.log(arrayData)
-    const results = arrayData.data
-        .filter((item) => item.artistList.length > 0)
-        .map((item, index) => renderEdmResult(item));
-    $('.js-search-results').html(results.slice(0,12).join(''));
+    console.log(`array data is `, arrayData)
+
+    let artistList = ''
+
+    if(arrayData.data.length === 0){
+        artistList = `<div class="align-center">No upcoming artists in this city :(</div>`
+        $('.js-search-results').html(artistList);
+    }
+    else {
+        artistList = arrayData.data
+            .filter((item) => item.artistList.length > 0)
+            .map((item, index) => renderEdmResult(item));
+        $('.js-search-results').html(artistList.slice(0,12).join(''));
+    }
+
+    setTimeout(function(){
+        $('html, body').animate({scrollTop:$('.js-search-results').position().top}, 'slow');
+    }, 1000)
 };
 
 //Appends the artists name and date
@@ -170,10 +183,12 @@ function getDataFromApi(searchTerm, callback){
 
 function renderYoutubeResult(result){
     return `
+    <div class="col-3 youtube-video">
       <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  
           target="_blank"><img alt="youtube video" 
           src="${result.snippet.thumbnails.medium.url}"/>
       </a>
+    </div
   `;
 }
 
@@ -282,6 +297,10 @@ function watchSubmit(){
 
         queryTarget.val("");
         getDataFromApi(youtubeSearchQuery, displayYouTubeSearchData); 
+        
+        setTimeout(function(){
+            $('html, body').animate({scrollTop:$('.js-search-results').position().top}, 'slow');
+        }, 1000)
     })
 }
 

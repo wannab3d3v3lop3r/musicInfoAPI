@@ -126,6 +126,10 @@ section h2{
     margin-bottom: 100px;
 }
 
+.youtube-video {
+    margin-bottom: 10px;
+}
+
 .js-youtube-results{
     text-align: center;
 }
@@ -146,6 +150,10 @@ section h2{
     text-decoration: none;
     border: 1px white solid;
     margin-top: 15px;
+}
+
+.align-center {
+    text-align: center;
 }
 
 select.states, select.cities { 
