@@ -3,7 +3,6 @@
 //endpoints
 const EDM_ENDPOINT_LOCATION = 'https://edmtrain.com/api/locations?';
 const EDM_ENDPOINT_EVENTS = 'https://edmtrain.com/api/events?'
-const SPOTIFY_ENDPOINT = 'https://api.spotify.com/v1/';
 const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 const EDM_CLIENT_ID = '82abf1d0-fa21-4a55-b904-64476c4a85d0';
 const USER = {
@@ -86,9 +85,6 @@ const stateCities = {
     'Wyoming': ['Cheyenne','Casper']
 }
 
-var spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken('BQAf2WjP461MbqFZFeOIjppg4qNHUIEuQpbRl-PQZX-95f3ERbsBK7hVVa7cncF0I1CV_XlYAP0c6YSuNCLMfyvWnU4vGPlg8Hsb21N6SvzNt97My6-_781bhWH7UFdfQnYCjXzaDNm4wQ');
-
 /*                                  EDM TRAIN                                     */
 
 //When user inputs a state and city, returns a JSON, goal is to grab the location ID
@@ -131,10 +127,11 @@ function getDataFromLocation(locationId, callback){
 
 //callback function for getDataFromLocation. Filters and returns an array of the JSON into html
 function displayEdmSearchData(arrayData){
+    console.log(arrayData)
     const results = arrayData.data
         .filter((item) => item.artistList.length > 0)
         .map((item, index) => renderEdmResult(item));
-    $('.js-search-results').html(results.join(''));
+    $('.js-search-results').html(results.slice(0,12).join(''));
 };
 
 //Appends the artists name and date
@@ -152,39 +149,6 @@ function renderEdmResult(data){
     </div>`;
 }
 
-/*                                          SPOTIFY                                            */
-
-function getDataFromSpotifyApi(searchTerm, callback){
-
-    spotifyApi.searchArtists(`${searchTerm}`)
-        .then(function(data) {
-            let id = data.artists.items[0].id;
-            displaySpotifySearchData(id);
-        }, function(err) {
-            console.error(err);
-        });
-}
-
-
-function displaySpotifySearchData(data) {
-
-    spotifyApi.getArtistTopTracks(data,'US').
-    then(function(data){
-        const results = data.tracks
-        .map((item, index) => renderResultFromSpotifyApi(item));
-    $('.js-track-results').html(results.join(''));
-    }, function(err){
-        console.error(err);
-    });
-  }
-
-
-function renderResultFromSpotifyApi(result){
-    return `<div class="col-3">
-                <button class="song-box">${result.name}</button>
-            </div>`
-}
-
 /*                                           YOUTUBE API                                       */
 
 
@@ -195,7 +159,7 @@ function getDataFromApi(searchTerm, callback){
             q: searchTerm,
             part: "snippet",
             key: "AIzaSyC68NGJp8YjxtvckrxeRGQ3JvCf3E4MJVU",
-            maxResults: 1
+            maxResults: 8
         },
         dataType: "json",
         type: "GET",
@@ -206,7 +170,10 @@ function getDataFromApi(searchTerm, callback){
 
 function renderYoutubeResult(result){
     return `
-      <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  target="_blank"><img alt="youtube video" src="${result.snippet.thumbnails.medium.url}"/></a>
+      <a href="https://www.youtube.com/watch?v=${result.id.videoId}"  
+          target="_blank"><img alt="youtube video" 
+          src="${result.snippet.thumbnails.medium.url}"/>
+      </a>
   `;
 }
 
@@ -259,7 +226,7 @@ function convertDateToMonth(firstTwoDigits){
 
     Object.keys(months).forEach(keys => {
 
-        if(firstTwoDigits.slice(6,7) == months[keys]){
+        if(firstTwoDigits.slice(5,7) == months[keys]){
             month = keys;
         }
     });
@@ -287,8 +254,10 @@ function watchSubmit(){
         }
 
         if(userInput){
+            //grabs location ID from API call
             getLocationFromUser(city, state, getLocationId);
 
+            //waits for data to come in, then displays
             setTimeout(function(){ 
                 getDataFromLocation(USER.locationId, displayEdmSearchData);
                 $('.tracks').hide();
@@ -299,38 +268,21 @@ function watchSubmit(){
     })
 
     $('.js-search-results').on('click','.artist-name', event => {
+        console.log(event.currentTarget);
+        $('.youtube').show();
         event.stopPropagation();
-
-        $('.youtube').hide();
-        $('.tracks').show();
-
         const queryTarget = $(event.currentTarget);
         const query = queryTarget.text();
+
+        console.log(query)
 
         YOUTUBE_SEARCH.artist = query;
 
-        let artistName = query.toUpperCase();
-        $('.tracks h2').text(`${artistName}'S TOP SONGS`);
-
-        queryTarget.val("");
-        getDataFromSpotifyApi(query, displaySpotifySearchData);
-    })
-
-    $('.js-track-results').on('click','.song-box',event => {
-        event.stopPropagation();
-        const queryTarget = $(event.currentTarget);
-        const query = queryTarget.text();
-
-        YOUTUBE_SEARCH.song = query;
-
-        let youtubeSearchQuery = YOUTUBE_SEARCH.artist + ' ' + YOUTUBE_SEARCH.song;
+        let youtubeSearchQuery = `${YOUTUBE_SEARCH.artist} edm`;
 
         queryTarget.val("");
         getDataFromApi(youtubeSearchQuery, displayYouTubeSearchData); 
-
-        $('.youtube').show();
     })
-
 }
 
 

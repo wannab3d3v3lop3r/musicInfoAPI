@@ -29,7 +29,7 @@ input{
 .artist-name {
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
-    font-size: 27px;
+    font-size: 23px;
     height: 150px;
     width: 100%;
     text-align: center;
@@ -122,7 +122,6 @@ section h2{
 }
 
 .youtube {
-    margin-top: 600px;
     margin-bottom: 100px;
 }
 
@@ -148,4 +147,8 @@ section h2{
     display: inline-block;
     font-size: 20px;
     border: 1px white solid;
+}
+
+select.states, select.cities { 
+    color: white;
 }
