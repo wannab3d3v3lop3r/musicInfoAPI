@@ -2,10 +2,6 @@ body{
     margin: 0 !important;
 }
 
-.form-container h1{
-    font-family: 'lombok';
-}
-
 input, #search {
     display: inline-block;
 }
@@ -111,10 +107,13 @@ section h2{
 }
 
 .artists h2, .youtube h2, .tracks h2{
-    text-align: center;
     font-family: 'lombok' !important;
     font-size: 30px;
     margin: 40px;
+}
+
+.artists p, .artists h2, .youtube h2, .tracks h2{
+    text-align: center;
 }
 
 .images {
@@ -158,4 +157,8 @@ section h2{
 
 select.states, select.cities { 
     color: white;
+}
+
+.overflow{
+    white-space: normal;
 }
