@@ -165,9 +165,6 @@ section h2{
     width: 120px;
 }
 
-select.states, select.cities { 
-}
-
 .overflow{
     white-space: normal;
 }
