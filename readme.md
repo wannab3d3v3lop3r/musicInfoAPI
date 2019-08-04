@@ -30,12 +30,7 @@ Artists in specific location:
 
 ![about](screenshots/listOfArtists.png)
 
-Top Songs of the Artist:
-
-![library](screenshots/topSongs.png)
-
-Youtube Link of the Artist's Song:
-
+Youtube Link of the Artist's
 ![recommendations](screenshots/song.png)
 
 ## Built With
