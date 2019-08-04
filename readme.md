@@ -17,6 +17,11 @@ to the artist's music at the site. I've made it where its possible to listen to 
 After a few clicks, it will direct you to the song on Youtube's page.
 
 ## Screenshots
+
+Userflow
+
+![userflow](screenshots/userflow.jpg)
+
 Landing Page where user picks state and city:
 
 ![login screen](screenshots/mainPage.png)
@@ -41,7 +46,7 @@ Youtube Link of the Artist's Song:
 * JAVASCRIPT
 * JQUERY
 * AJAX
-* RESPONSIVE DESIGN
+* RESPONSIVE DESIGN CSS
 
 ## Demo
 
@@ -53,7 +58,6 @@ Youtube Link of the Artist's Song:
 
 ## API USED
 
-- Spotify (https://developer.spotify.com/)
 - EDMTrain (https://edmtrain.com/api-documentation.html)
 - Youtube (https://developers.google.com/youtube/)
 
