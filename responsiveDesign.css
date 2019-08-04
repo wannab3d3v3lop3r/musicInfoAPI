@@ -261,30 +261,28 @@ and (orientation: landscape) {
   and (max-device-width: 1024px) 
   and (orientation: portrait) 
   and (-webkit-min-device-pixel-ratio: 2) {
-    .form-container {
-      width: 600px;
-      height: 600px;
-      top: 20%;
-      left: 12%;
+    .container-form{
+      width: 500px;
     }
-    .form-container h1{
-      font-size: 11vw;
+
+    .container-form > h1 {
+      font-size: 45px;
     }
 
     .states, .cities {
-      font-size: 40px;
+      font-size: 20px;
       color: white;
     }
 
-    .select-row label {
-      font-size: 40px;
+    .select-row label, .select-row.states, .select-row.cities {
+      font-size: 20px;
     }
     .button-row {
       margin-top: 50px;
     }
 
     .button-row .search {
-      padding: 44px 78px;
+      padding: 30px 30px;
     }
     .col-3 {
       width: 50%;
@@ -300,30 +298,25 @@ and (orientation: landscape) {
   and (max-device-width: 1024px) 
   and (orientation: landscape) 
   and (-webkit-min-device-pixel-ratio: 2) {
-    .form-container {
-      width: 600px;
-      height: 600px;
-      top: 11%;
-      left: 22%;
+    .container-form{
+      width: 500px;
     }
-    .form-container h1{
-      font-size: 9vw;
+
+    .container-form > h1 {
+      font-size: 45px;
     }
 
     .states, .cities {
-      font-size: 30px;
+      font-size: 20px;
       color: white;
     }
 
-    .select-row label {
-      font-size: 30px;
-    }
-    .button-row {
-      margin-top: 50px;
+    .select-row label, .select-row.states, .select-row.cities {
+      font-size: 20px;
     }
 
-    .button-row .search {
-      padding: 34px 78px;
+    .select-row label {
+      font-size: 17px;
     }
     .col-3 {
       width: 50%;
@@ -343,18 +336,17 @@ and (orientation: landscape) {
   and (max-device-width: 1024px) 
   and (orientation: portrait) 
   and (-webkit-min-device-pixel-ratio: 2) {
-    .form-container {
-      width: 600px;
-      height: 600px;
-      top: 25%;
-      left: 23%;
+
+    .container-form {
+      width: 500px
     }
-    .form-container h1{
-      font-size: 9vw;
+
+    .container-form > h1 {
+      font-size: 56px;
     }
 
     .states, .cities {
-      font-size: 30px;
+      font-size: 21px;
       color: white;
     }
 
@@ -384,26 +376,20 @@ and (orientation: landscape) {
   and (max-device-width: 1366px) 
   and (orientation: landscape) 
   and (-webkit-min-device-pixel-ratio: 2) {
-    .form-container {
-      width: 600px;
-      height: 600px;
-      top: 20%;
-      left: 29%;
+    .container-form {
+      width: 500px
     }
-    .form-container h1{
-      font-size: 6vw;
+    .container-form > h1{
+      font-size: 56px;
     }
 
     .states, .cities {
-      font-size: 30px;
+      font-size: 21px;
       color: white;
     }
 
     .select-row label {
       font-size: 30px;
-    }
-    .button-row {
-      margin-top: 75px;
     }
 
     .button-row .search {

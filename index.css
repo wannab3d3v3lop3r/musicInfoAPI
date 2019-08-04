@@ -46,7 +46,7 @@ input{
     position: relative;
 }
 
-.container {
+.container, footer {
     background: url("wallpaper.jpg") no-repeat fixed center;
     max-height: 1366px;
     opacity: .8;
@@ -56,16 +56,21 @@ input{
     width: 100%;
 }
 
-.form-container {
+.container-form {
     width: 300px;
     text-align: center;
     background-color: #151515;
     padding: 30px;
     position: absolute;
-    left: 40%;
-    top: 30%;
     color:white;
     border-radius: 25px;
+}
+
+.container-center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .watermark {
@@ -153,12 +158,28 @@ section h2{
 
 .align-center {
     text-align: center;
+    padding: 50px;
+}
+
+.cities {
+    width: 120px;
 }
 
 select.states, select.cities { 
-    color: white;
 }
 
 .overflow{
     white-space: normal;
+}
+
+footer {
+    padding: 30px;
+    color: white;
+    text-align: center;
+    clear:both;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
 }

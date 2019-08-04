@@ -151,7 +151,6 @@ function displayEdmSearchData(arrayData){
 function renderEdmResult(data){
 
     const artistName = data.artistList[0].name;
-    // let date = data.date.slice(5);
 
     let month = convertDateToMonth(data.date);
 
@@ -299,7 +298,7 @@ function watchSubmit(){
         getDataFromApi(youtubeSearchQuery, displayYouTubeSearchData); 
         
         setTimeout(function(){
-            $('html, body').animate({scrollTop:$('.js-search-results').position().top}, 'slow');
+            $('html, body').animate({scrollTop:$('footer').offset().top}, 'slow');
         }, 1000)
     })
 }
