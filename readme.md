@@ -1,18 +1,11 @@
-<!-- # book-thing.io
+## Demo
 
-Initial wireframes:
+- [Live Demo](https://wannab3d3v3lop3r.github.io/musicInfoAPI/)
 
-https://wireframe.cc/x0a8I9
-
-https://wireframe.cc/6oVXTU -->
 # MusicInfoAPI
 
 The goal of this project is the ability to see which EDM artist is playing in a particular area
 and be able to listen to its top songs.
-
-## Demo
-
-- [Live Demo](https://wannab3d3v3lop3r.github.io/musicInfoAPI/)
 
 ## Motivation
 
