@@ -10,6 +10,10 @@ https://wireframe.cc/6oVXTU -->
 The goal of this project is the ability to see which EDM artist is playing in a particular area
 and be able to listen to its top songs.
 
+## Demo
+
+- [Live Demo](https://wannab3d3v3lop3r.github.io/musicInfoAPI/)
+
 ## Motivation
 
 Most sites have it where they are able to show where EDM artists playing but doesn't have a way to listen 
@@ -43,13 +47,9 @@ Youtube Link of the Artist's
 * AJAX
 * RESPONSIVE DESIGN CSS
 
-## Demo
+## Author
 
-- [Live Demo](https://wannab3d3v3lop3r.github.io/musicInfoAPI/)
-
-## Authors
-
-* **Christopher Vo** - ** - Front-End development
+* Christopher Vo
 
 ## API USED
 
